@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skyview Towers Executive | Developed by Staicey</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Consolas&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --pink-primary: #ec4899;
+            --violet-accent: #8b5cf6;
+            --dark-bg: #0f172a;
+            --card-bg: #1e293b;
+            --terminal-bg: #020617;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark-bg);
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .header-title {
+            color: var(--pink-primary);
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-shadow: 0 0 15px rgba(236, 72, 153, 0.3);
+        }
+
+        .nav-tabs { border-bottom: none; }
+        .nav-link {
+            color: #94a3b8;
+            border: none !important;
+            padding: 12px 25px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        .nav-link.active {
+            background-color: var(--pink-primary) !important;
+            color: white !important;
+            border-radius: 8px;
+        }
+
+        .tab-content {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 20px;
+            border: 1px solid #334155;
+        }
+
+        .terminal-display {
+            background-color: var(--terminal-bg);
+            font-family: 'Consolas', monospace;
+            color: var(--pink-primary);
+            padding: 15px;
+            border-radius: 8px;
+            height: 200px;
+            overflow-y: auto;
+            white-space: pre;
+            border: 1px solid rgba(236, 72, 153, 0.1);
+        }
+
+        .form-control-custom {
+            background-color: var(--dark-bg);
+            border: 1px solid #334155;
+            color: white;
+        }
+        .form-control-custom:focus {
+            background-color: var(--dark-bg);
+            color: white;
+            border-color: var(--pink-primary);
+            box-shadow: none;
+        }
+
+        .btn-pink { background-color: var(--pink-primary); color: white; font-weight: bold; border: none; }
+        .btn-pink:hover { background-color: #be185d; color: white; }
+        
+        .btn-violet { background-color: var(--violet-accent); color: white; font-weight: bold; border: none; }
+        .btn-violet:hover { background-color: #7c3aed; color: white; }
+    </style>
+</head>
+<body>
+
+    <div class="container max-w-lg">
+        <header class="text-center mb-4">
+            <h1 class="header-title display-4">SKYVIEW TOWERS</h1>
+            <p class="text-secondary small">Advanced Hospitality Management Logic</p>
+        </header>
+
+        <ul class="nav nav-tabs justify-content-center" id="hotelTabs" role="tablist">
+            <li class="nav-item">
+                <button class="nav-link active" id="room-tab" data-bs-toggle="tab" data-bs-target="#rooms" type="button">🏨 RESERVATIONS</button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" id="food-tab" data-bs-toggle="tab" data-bs-target="#food" type="button">🍽️ SERVICES</button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" id="staff-tab" data-bs-toggle="tab" data-bs-target="#staff" type="button">🔑 STAFF</button>
+            </li>
+        </ul>
+
+        <div class="tab-content shadow-lg">
+            
+            <div class="tab-pane fade show active" id="rooms">
+                <h4 class="mb-4" style="color: var(--pink-primary)">Guest Registration</h4>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="small text-secondary">GUEST NAME</label>
+                        <input type="text" id="guestName" class="form-control form-control-custom">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="small text-secondary">ROOM NUMBER</label>
+                        <select id="roomSelect" class="form-select form-control-custom">
+                            <option value="101">101 (Standard - $100)</option>
+                            <option value="201">201 (Deluxe - $250)</option>
+                            <option value="301">301 (Presidential - $700)</option>
+                        </select>
+                    </div>
+                    <div class="col-12 text-center mt-4">
+                        <button onclick="bookRoom()" class="btn btn-pink w-50">CONFIRM BOOKING</button>
+                    </div>
+                </div>
+                <div class="terminal-display mt-4" id="roomDisplay"></div>
+            </div>
+
+            <div class="tab-pane fade" id="food">
+                <h4 class="mb-4" style="color: var(--violet-accent)">Digital Menu & Amenities</h4>
+                <div class="mb-3">
+                    <label class="small text-secondary">SELECT ITEM</label>
+                    <select id="itemSelect" class="form-select form-control-custom">
+                        <option value="Breakfast Buffet|25">Breakfast Buffet ($25)</option>
+                        <option value="Luxury Steak|45">Luxury Steak ($45)</option>
+                        <option value="Pink Mocktail|12">Pink Mocktail ($12)</option>
+                        <option value="Spa Session|80">Spa Session ($80)</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="small text-secondary">ASSIGN TO ROOM</label>
+                    <select id="assignRoom" class="form-select form-control-custom"></select>
+                </div>
+                <button onclick="orderItem()" class="btn btn-violet w-100 mb-4">ADD TO BILL</button>
+                <div class="terminal-display" style="color: var(--violet-accent)" id="serviceLog"></div>
+            </div>
+
+            <div class="tab-pane fade" id="staff">
+                <h4 class="mb-4">Internal Staff Access</h4>
+                <div class="mb-3">
+                    <label class="small text-secondary">STAFF ID</label>
+                    <input type="password" id="staffId" class="form-control form-control-custom" placeholder="••••••••">
+                </div>
+                <button onclick="generateReport()" class="btn btn-outline-light w-100 mb-2">GENERATE REVENUE REPORT</button>
+                <button onclick="checkoutGuest()" class="btn btn-danger w-100">CHECKOUT GUEST</button>
+            </div>
+
+        </div>
+
+        <footer class="text-center mt-5">
+            <p class="text-secondary small">© 2026 Staicey Ndlovu | Advanced Hospitality Logic</p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        const rooms = {
+            "101": { type: "Standard", price: 100, status: "Available", guest: "", extras: 0 },
+            "201": { type: "Deluxe", price: 250, status: "Available", guest: "", extras: 0 },
+            "301": { type: "Presidential", price: 700, status: "Available", guest: "", extras: 0 }
+        };
+
+        function updateUI() {
+            // Update Room Display Terminal
+            const display = document.getElementById('roomDisplay');
+            let content = `ROOM      STATUS          GUEST               SERVICES\n${'-'.repeat(60)}\n`;
+            for (let rm in rooms) {
+                content += `${rm.padEnd(10)} ${rooms[rm].status.padEnd(15)} ${rooms[rm].guest.padEnd(20)} $${rooms[rm].extras}\n`;
+            }
+            display.innerText = content;
+
+            // Update Assign Room Dropdown
+            const select = document.getElementById('assignRoom');
+            select.innerHTML = "";
+            for (let rm in rooms) {
+                if (rooms[rm].status === "Occupied") {
+                    let opt = document.createElement('option');
+                    opt.value = rm;
+                    opt.innerText = `Room ${rm} (${rooms[rm].guest})`;
+                    select.appendChild(opt);
+                }
+            }
+        }
+
+        function bookRoom() {
+            const name = document.getElementById('guestName').value;
+            const rm = document.getElementById('roomSelect').value;
+            if (!name) return alert("Please enter Guest Name");
+            
+            if (rooms[rm].status === "Available") {
+                rooms[rm].status = "Occupied";
+                rooms[rm].guest = name;
+                alert(`Room ${rm} Reserved for ${name}`);
+                updateUI();
+            } else {
+                alert("Room is already Occupied");
+            }
+        }
+
+        function orderItem() {
+            const itemData = document.getElementById('itemSelect').value.split('|');
+            const rm = document.getElementById('assignRoom').value;
+            if (!rm) return alert("Select an occupied room");
+
+            const itemName = itemData[0];
+            const price = parseInt(itemData[1]);
+            
+            rooms[rm].extras += price;
+            const log = document.getElementById('serviceLog');
+            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            log.innerText += `[${time}] ${itemName} added to Room ${rm} ($${price})\n`;
+            updateUI();
+        }
+
+        function generateReport() {
+            if (document.getElementById('staffId').value === "STAICEY2026") {
+                let total = 0;
+                for (let rm in rooms) { if (rooms[rm].status === "Occupied") total += rooms[rm].extras; }
+                alert(`Staff Report\nActive Room Services Revenue: $${total}`);
+            } else {
+                alert("Invalid Staff Credentials");
+            }
+        }
+
+        function checkoutGuest() {
+            const rm = prompt("Enter Room Number to Checkout:");
+            if (rooms[rm] && rooms[rm].status === "Occupied") {
+                const total = rooms[rm].price + rooms[rm].extras;
+                alert(`Final Invoice\nGuest: ${rooms[rm].guest}\nTotal Due: $${total}`);
+                rooms[rm].status = "Available";
+                rooms[rm].guest = "";
+                rooms[rm].extras = 0;
+                updateUI();
+            } else {
+                alert("Room is not occupied or invalid");
+            }
+        }
+
+        updateUI();
+    </script>
+</body>
+</html>
